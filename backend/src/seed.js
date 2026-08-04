@@ -95,18 +95,29 @@ const cargarEstadios = async (mapaCategorias) => {
     return creados;
 };
 
-// Crea el admin del principio. Los datos salen del .env para no dejar
-// ninguna contraseña escrita en el repo.
+// El admin de demo. Está documentado en el README y solo se usa en desarrollo,
+// para que el proyecto ande apenas lo clonás, sin tener que configurar el .env.
+const ADMIN_DEMO = { email: 'admin@worldcup26.com', password: 'admin123456' };
+
+// Crea el admin del principio. En producción los datos salen sí o sí del .env,
+// para no dejar ninguna contraseña de verdad escrita en el repo.
 const cargarAdmin = async () => {
-    const email = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
-    const password = process.env.ADMIN_PASSWORD;
+    const enProduccion = process.env.NODE_ENV === 'production';
+    let email = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+    let password = process.env.ADMIN_PASSWORD;
     const nombre = process.env.ADMIN_NAME || 'Administrador';
 
     if (!email || !password) {
-        console.warn(
-            'Seed: no se creó el administrador (faltan ADMIN_EMAIL y ADMIN_PASSWORD en el .env)'
-        );
-        return false;
+        if (enProduccion) {
+            console.warn(
+                'Seed: no se creó el administrador (faltan ADMIN_EMAIL y ADMIN_PASSWORD en el .env)'
+            );
+            return false;
+        }
+        // En local uso el de demo así el panel se puede probar de una.
+        email = ADMIN_DEMO.email;
+        password = ADMIN_DEMO.password;
+        console.log(`Seed: sin ADMIN_EMAIL en el .env, uso el admin de demo (${email} / ${password})`);
     }
 
     const existe = await Usuario.findOne({ email });

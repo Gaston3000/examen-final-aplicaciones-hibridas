@@ -90,34 +90,46 @@ Protecciones incluidas:
 
 ## Instalación local
 
-Requisitos: **Node.js 20 o superior**. No hace falta instalar MongoDB para probarlo.
+Requisitos: **Node.js 20 o superior**. No hace falta instalar MongoDB ni
+configurar nada: son tres comandos y anda.
+
+```bash
+git clone https://github.com/Gaston3000/examen-final-aplicaciones-hibridas.git
+```
+
+```bash
+cd examen-final-aplicaciones-hibridas
+```
 
 ```bash
 npm run setup
 ```
 
-Ese comando instala las dependencias de la raíz, del backend y del frontend.
-(Equivale a correr `npm install` en cada carpeta.)
-
-Después hay que crear los archivos de entorno:
-
-```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-```
-
-Y levantar todo con un solo comando:
-
 ```bash
 npm start
 ```
 
-- Backend: http://localhost:3000
-- Frontend: http://localhost:5173
+Después abrir **http://localhost:5173** en el navegador.
 
-> Si `backend/.env` **no** tiene `MONGO_URI`, el backend levanta una base MongoDB
-> **en memoria** automáticamente (solo en desarrollo). Es muy cómodo para probar,
-> pero los datos se pierden al reiniciar. En producción `MONGO_URI` es obligatorio.
+- Frontend: http://localhost:5173
+- Backend (API): http://localhost:3000
+
+> **Sobre los archivos `.env`:** no vienen en el repositorio (están en `.gitignore`,
+> como corresponde). No hacen falta para probar el proyecto en local: sin ellos el
+> backend levanta una base MongoDB **en memoria**, carga las sedes de ejemplo y crea
+> el administrador de demo, avisándolo por consola. Los datos se pierden al reiniciar
+> el servidor, que es justamente lo que se espera de una base en memoria.
+>
+> Si querés usar una base propia o cambiar las credenciales, copiá los ejemplos:
+>
+> ```bash
+> cp backend/.env.example backend/.env
+> cp frontend/.env.example frontend/.env
+> ```
+>
+> En producción `MONGO_URI` y `JWT_SECRET` son obligatorias: sin ellas el servidor
+> no arranca, para no trabajar con datos que se borran ni firmar tokens con una
+> clave conocida.
 
 ### Levantar cada parte por separado
 
