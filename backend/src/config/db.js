@@ -27,6 +27,9 @@ export const connectDB = async () => {
             const mem = await MongoMemoryServer.create();
             uri = mem.getUri();
             console.log('MongoDB: base en memoria (solo desarrollo, los datos no se guardan)');
+            // Muestro la URI por si la quiero abrir con MongoDB Compass y mirar
+            // los datos. Cambia en cada arranque porque el puerto es al azar.
+            console.log(`MongoDB: para verla con Compass, conectate a  ${uri}`);
         }
 
         await mongoose.connect(uri);
